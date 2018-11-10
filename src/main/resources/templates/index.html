@@ -2,22 +2,72 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="stylesheet" media="all"
+	th:href="@{/webjars/bootstrap/4.0.0/css/bootstrap.min.css}" />
+<script type="text/javascript"
+	th:src="@{/webjars/jquery/3.2.1/jquery.min.js}"></script>
+<script type="text/javascript"
+	th:src="@{/webjars/bootstrap/4.0.0/js/bootstrap.min.js}"></script>
+<script type="text/javascript"
+	th:src="@{/webjars/jquery-ui/1.12.1/jquery-ui.min.js}"></script>
 <title>Hello, Spring Boot!</title>
 </head>
 <body>
-<h1>Hello, Spring Boot!</h1>
+	<h1>Hello, Spring Boot!</h1>
 
-<h2>Recent messages</h2>
+	<h2>Recent messages</h2>
 
-<dl>
-    <th:block th:each="message : ${messages}">
-        <dt>
-            <span class="name" th:text="${message.name}" th:attr="title=${message.remoteAddr}">John Doe</span>
-            <small th:text="${#dates.format(message.createdAt, '(yyyy-MM-dd HH:mm:ss)')}">(1970-01-01 00:00:00)</small>
-        </dt>
-        <dd th:text="${message.text}">Lorem ipsum dolor sit amet</dd>
-    </th:block>
-</dl>
-
+	<table class="table table-striped">
+		<tr>
+			<th>ID</th>
+			<th>NAME</th>
+			<th>TEXT</th>
+			<th>DATETIME</th>
+		</tr>
+		<tr th:each="message,iterStat : ${messages}">
+			<td th:class="${iterStat.odd}? 'odd' : 'even'"
+				th:text="${iterStat.count}"></td>
+			<td th:class="${iterStat.odd}? 'odd' : 'even'"
+				th:text="${message.name}"></td>
+			<td th:class="${iterStat.odd}? 'odd' : 'even'"
+				th:text="${message.text}"></td>
+			<td th:class="${iterStat.odd}? 'odd' : 'even'"
+				th:text="${message.createdDate}"></td>
+		</tr>
+	</table>
+	<button type="button" class="btn btn-primary btn-sm"
+		data-toggle="modal" data-target="#myModal">メッセージ追加</button>
+	<div class="modal fade" id="myModal" tabindex="-1" role="dialog">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+					<h4 class="modal-title">メッセージ追加</h4>
+				</div>
+				<div class="modal-body">
+					<form th:action="@{/add}" th:object="${messageForm}"
+						method="post">
+						<p>
+							名前: <input type="text" th:field="*{name}" />
+						</p>
+						<p>
+							本文: <input type="text" th:field="*{text}" />
+						</p>
+						<p>
+							<input type="submit" value="Submit" />
+						</p>
+					</form>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">閉じる</button>
+				</div>
+			</div>
+		</div>
+	</div>
 </body>
 </html>

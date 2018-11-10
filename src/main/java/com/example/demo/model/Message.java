@@ -2,61 +2,44 @@ package com.example.demo.model;
 
 import java.util.Date;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Entity
 public class Message {
-	private Long id;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private int id;
     
+	@Column(name="name")
     private String name;
     
+	@Column(name="text")
     private String text;
     
-    private String remoteAddr;
+	@Column(name="created_date")
+    private Date createdDate;
 
-    private Date createdAt;
-
-    // JPA requirement
-    public Message() {}
-
-    public Message(String name, String text, String remoteAddr) {
-        this.name = name;
-        this.text = text;
-        this.remoteAddr = remoteAddr;
+	public static Message toEntity(MessageForm messageForm) {
+    	Message entity = new Message();
+    	entity.setName(messageForm.getName());
+    	entity.setText(messageForm.getText());
+    	entity.setCreatedDate(new Date());
+    	return entity;
     }
-
+	
     @Override
     public String toString() {
         return String.format("Message[id=%d, name='%s', text='%s']", id, name, text);
     }
-
-    public Long getId() {
-        return id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getText() {
-        return text;
-    }
-
-    public void setText(String text) {
-        this.text = text;
-    }
-
-    public String getRemoteAddr() {
-        return remoteAddr;
-    }
-
-    public void setRemoteAddr(String remoteAddr) {
-        this.remoteAddr = remoteAddr;
-    }
-
-    public Date getCreatedAt() {
-        return createdAt;
-    }
-
 }

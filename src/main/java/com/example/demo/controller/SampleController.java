@@ -18,15 +18,11 @@ import com.example.demo.model.MessageForm;
 import com.example.demo.service.MessageService;
 
 @Controller
-public class TestController {
+public class SampleController {
+	
 	@Autowired
 	private MessageService service;
 
-	@ModelAttribute
-	MessageForm setupForm() {
-	    return new MessageForm();
-	}
-	
 	@GetMapping("/messages")
 	public String messages(Model model) {
 		model.addAttribute("messageForm", new MessageForm());
@@ -34,18 +30,17 @@ public class TestController {
 		List<Message> messages = service.getRecentMessages();
 		model.addAttribute("messages", messages);
 
-		return "messages";
+		return "index";
 	}
 
-	@PostMapping("/messages")
+	@PostMapping("/add")
 	public String messagesPost(Model model, @Valid MessageForm messageForm, BindingResult bindingResult,
 			HttpServletRequest request) {
-		if (bindingResult.hasErrors()) {
+		if (!bindingResult.hasErrors()) {
+			service.addMessage(messageForm);
 			List<Message> messages = service.getRecentMessages();
 			model.addAttribute("messages", messages);
-			return "messages";
 		}
-
 		return "redirect:/messages";
 	}
 }
