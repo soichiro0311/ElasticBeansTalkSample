@@ -23,7 +23,7 @@ public class SampleController {
 	@Autowired
 	private MessageService service;
 
-	@GetMapping("/messages")
+	@GetMapping("/")
 	public String messages(Model model) {
 		model.addAttribute("messageForm", new MessageForm());
 
@@ -41,6 +41,6 @@ public class SampleController {
 			List<Message> messages = service.getRecentMessages();
 			model.addAttribute("messages", messages);
 		}
-		return "redirect:/messages";
+		return "redirect:/";
 	}
 }
