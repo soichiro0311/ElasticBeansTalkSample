@@ -7,4 +7,4 @@ spring:
 flyway:
   url: jdbc:mysql://it-db-instance.cdpvxppiskfr.ap-northeast-1.rds.amazonaws.com:3306/sample
   user: root
-  password: mysql
+  password: myrootpass
